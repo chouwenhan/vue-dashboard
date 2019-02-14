@@ -1,0 +1,23 @@
+version: '3.1'
+
+networks:
+  default:
+    external:
+      name: db_edc_net
+
+services:
+  dashboard:
+    build:
+        context: ..
+        dockerfile: docker/dockerfile.js
+    image: node:6.2
+    container_name: dashboard
+    privileged: true
+    ports:
+      - 8080:9528
+    working_dir: /app
+    volumes:
+      - ../vue-admin-template/:/app/
+    command: >
+      bash -c
+      "npm install && npm run dev"
