@@ -142,6 +142,19 @@ export const constantRouterMap = [
     ]
   },
 
+  {
+    path: '/create-article',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'Create-article',
+        component: () => import('@/views/create-article/index'),
+        meta: { title: '建立新文章', icon: 'form' }
+      }
+    ]
+  },
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 
