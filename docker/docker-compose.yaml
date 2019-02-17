@@ -3,7 +3,7 @@ version: '3.1'
 networks:
   default:
     external:
-      name: db_edc_net
+      name: docker_hank-net
 
 services:
   dashboard:

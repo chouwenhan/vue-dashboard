@@ -1,4 +1,10 @@
 import Vue from 'vue'
+import VueApollo from 'vue-apollo'
+import { apolloClient } from './apollo'
+
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient
+})
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
@@ -15,7 +21,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, { locale }, VueApollo)
 
 Vue.config.productionTip = false
 
@@ -23,5 +29,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  apolloProvider,
   render: h => h(App)
 })
