@@ -30,10 +30,9 @@ export default {
     }
   },
   methods: {
-    async onSubmit() {
+    onSubmit() {
       // 调用 graphql 变更
-      await this.$apollo.query({
-        // 查询语句
+      this.$apollo.provider.defaultClient.mutate({
         mutation: gql`mutation ($title: String!, $content: String!) {
           createArticle(title: $title, content: $content) {
             title
@@ -43,8 +42,8 @@ export default {
         }`,
         // 参数
         variables: {
-          title: this.title,
-          content: this.content
+          title: this.article.title,
+          content: this.article.content
         }
       })
     },
