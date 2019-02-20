@@ -45,13 +45,16 @@ export default {
           title: this.article.title,
           content: this.article.content
         }
+      }).then(data => {
+        alert('創建文章成功')
+        window.location.reload()
+      }).catch(() => {
+        alert('創建文章失敗')
       })
     },
     onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
+      alert('取消創建文章')
+      window.location.reload()
     }
 
   }
