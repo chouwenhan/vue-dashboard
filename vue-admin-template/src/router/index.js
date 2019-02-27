@@ -155,6 +155,19 @@ export const constantRouterMap = [
     ]
   },
 
+  {
+    path: '/article-list',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'article-list',
+        component: () => import('@/views/get-article/article-list/index'),
+        meta: { title: '文章列表', icon: 'form' }
+      }
+    ]
+  },
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 
