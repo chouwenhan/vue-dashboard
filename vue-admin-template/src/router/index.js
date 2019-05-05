@@ -168,6 +168,20 @@ export const constantRouterMap = [
     ]
   },
 
+  {
+    path: '/article',
+    component: Layout,
+    props: true,
+    children: [
+      {
+        path: ':id',
+        name: 'article',
+        component: () => import('@/views/get-article/article/index'),
+        meta: { title: '文章資訊', icon: 'form' }
+      }
+    ]
+  },
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 
