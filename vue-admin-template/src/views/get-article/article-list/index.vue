@@ -6,8 +6,13 @@
           <el-button type="text" size="small" @click="handleLink(scope.row)"> {{ scope.row.title }} </el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="note" label="標籤" width="180"/>
+      <el-table-column prop="tags" label="標籤" width="180"/>
       <el-table-column prop="content" label="內容"/>
+      <el-table-column label="修改">
+        <template slot-scope="scope">
+          <i class="el-icon-edit" @click="modifyLink(scope.row)"/>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -27,7 +32,7 @@ export default {
         article_list {
           title
           content
-          note
+          tags
           _id
         }
       }`
@@ -42,6 +47,9 @@ export default {
   methods: {
     handleLink(row) {
       this.$router.push({ path: '/article/' + row._id })
+    },
+    modifyLink(row) {
+      this.$router.push({ path: '/modify-article/' + row._id })
     }
   }
 }

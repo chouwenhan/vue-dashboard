@@ -45,7 +45,7 @@ export default {
           createArticle(title: $title, content: $content) {
             title
             content
-            note
+            tags
             _id
           }
         }`,
@@ -55,7 +55,7 @@ export default {
           content: this.article.content
         }
       }).then(data => {
-        const uploadUrl = 'http://10.36.162.148:3001/graphql/article/file/' + data.data.createArticle._id
+        const uploadUrl = 'http://192.168.0.105:3001/graphql/article/file/' + data.data.createArticle._id
         this.upLoad(uploadUrl)
         alert('創建文章成功')
         window.location.reload()

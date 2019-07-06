@@ -182,6 +182,19 @@ export const constantRouterMap = [
     ]
   },
 
+  {
+    path: '/modify-article',
+    component: Layout,
+    props: true,
+    children: [
+      {
+        path: ':id',
+        name: 'modify-article',
+        component: () => import('@/views/modify-article/index')
+      }
+    ]
+  },
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 

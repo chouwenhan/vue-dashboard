@@ -1,11 +1,11 @@
 <template>
-  <div class="create-artilce-container">
+  <div class="get-artilce-container">
     <el-form label-position="left" size="small" label-width="90px" style="width: 90%; margin-left:10px; margin-right:10px;">
       <el-form-item label="文章標頭">
         <el-form-item> {{ article.title }} </el-form-item>
       </el-form-item>
       <el-form-item label="文章標籤">
-        <el-form-item> {{ article.note }} </el-form-item>
+        <el-form-item> {{ article.tags }} </el-form-item>
       </el-form-item>
       <el-form-item label="文章內容">
         <el-form-item> {{ article.content }} </el-form-item>
@@ -28,7 +28,7 @@ export default {
       article: {
         _id: '',
         content: '',
-        note: '',
+        tags: '',
         title: '',
         type: ''
       }
@@ -41,7 +41,7 @@ export default {
         article(id: $id) {
           title
           content
-          note
+          tags
           _id
           type
         }
@@ -54,7 +54,7 @@ export default {
       var data = {}
       data = response.data
       this.article.title = data.article.title
-      this.article.note = data.article.note
+      this.article.tags = data.article.tags
       this.article.content = data.article.content
     }).catch(() => {
       alert('無法讀取文章')
