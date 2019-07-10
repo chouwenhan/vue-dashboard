@@ -170,6 +170,7 @@ export const constantRouterMap = [
 
   {
     path: '/article',
+    hidden: true,
     component: Layout,
     props: true,
     children: [

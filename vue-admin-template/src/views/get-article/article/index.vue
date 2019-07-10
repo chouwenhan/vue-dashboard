@@ -37,8 +37,8 @@ export default {
   beforeMount() {
     console.log(this.$route.params.id)
     this.$apollo.provider.defaultClient.query({
-      query: gql`query ($id: String!){
-        article(id: $id) {
+      query: gql`query ($_id: String!){
+        article(_id: $_id) {
           title
           content
           tags
@@ -48,7 +48,7 @@ export default {
       }`,
       // 参数
       variables: {
-        id: this.$route.params.id
+        _id: this.$route.params.id
       }
     }).then(response => {
       var data = {}
