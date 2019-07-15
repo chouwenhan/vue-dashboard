@@ -43,7 +43,7 @@ export default {
     console.log(this.$route.params.id)
     this.$apollo.provider.defaultClient.query({
       query: gql`query ($id: String!){
-        article(id: $id) {
+        article(_id: $id) {
           title
           content
           tags

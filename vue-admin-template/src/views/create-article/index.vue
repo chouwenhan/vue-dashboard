@@ -11,7 +11,7 @@
         <el-input v-model="article.content" :rows="10" type="textarea"/>
       </el-form-item>
       <el-form-item label="上傳圖片" >
-        <el-upload :on-change="fileChange" :auto-upload="false" action="">
+        <el-upload :on-change="fileChange" :auto-upload="false" action="" multiple>
           <el-button size="small" type="primary">上傳檔案</el-button>
         </el-upload>
       </el-form-item>
@@ -57,8 +57,6 @@ export default {
       }).then(data => {
         const uploadUrl = 'http://192.168.0.105:3001/graphql/article/file/' + data.data.createArticle._id
         this.upLoad(uploadUrl)
-        alert('創建文章成功')
-        window.location.reload()
       }).catch(() => {
         alert('創建文章失敗')
       })
@@ -72,8 +70,8 @@ export default {
     },
     upLoad(uploadUrl) {
       const formData = new FormData()
-      for (let i = 0; i < this.files.length; i++) {
-        formData.append('file', this.files[i])
+      for (var i = 0; i < this.files.length; i++) {
+        formData.append('files', this.files[i])
       }
       const config = {
         headers: {
@@ -82,6 +80,8 @@ export default {
       }
       axios.post(uploadUrl, formData, config).then(res => {
         console.log(res)
+        alert('創建文章成功')
+        window.location.reload()
       }).then(response => {
         console.log(response)
       }).catch(error => {
