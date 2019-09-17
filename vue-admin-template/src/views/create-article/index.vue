@@ -8,7 +8,7 @@
         <el-input v-model="article.tags"/>
       </el-form-item>
       <el-form-item label="文章內容">
-        <el-input v-model="article.content" :rows="10" type="textarea"/>
+        <el-input v-model="article.content" :autosize="{ minRows: 10}" type="textarea" />
       </el-form-item>
       <el-form-item label="上傳圖片" >
         <el-upload :on-change="fileChange" :auto-upload="false" action="" multiple>
@@ -25,6 +25,7 @@
 <script>
 import axios from 'axios'
 import gql from 'graphql-tag'
+import { url } from '../../apollo/index.js'
 
 export default {
   data() {
@@ -41,8 +42,8 @@ export default {
     onSubmit() {
       // 调用 graphql 变更
       this.$apollo.provider.defaultClient.mutate({
-        mutation: gql`mutation ($title: String!, $content: String!) {
-          createArticle(title: $title, content: $content) {
+        mutation: gql`mutation ($title: String!, $tags: String!, $content: String!) {
+          createArticle(title: $title, tags: $tags, content: $content) {
             title
             content
             tags
@@ -52,10 +53,11 @@ export default {
         // 参数
         variables: {
           title: this.article.title,
-          content: this.article.content
+          content: this.article.content,
+          tags: this.article.tags
         }
       }).then(data => {
-        const uploadUrl = 'http://192.168.0.105:3001/graphql/article/file/' + data.data.createArticle._id
+        const uploadUrl = url + '/file/' + data.data.createArticle._id
         this.upLoad(uploadUrl)
       }).catch(() => {
         alert('創建文章失敗')
@@ -82,8 +84,6 @@ export default {
         console.log(res)
         alert('創建文章成功')
         window.location.reload()
-      }).then(response => {
-        console.log(response)
       }).catch(error => {
         console.log(error.response)
       })

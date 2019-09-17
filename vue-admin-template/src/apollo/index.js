@@ -4,9 +4,11 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
 import Vue from 'vue'
 
+export const url = 'http://35.184.71.189:3001/graphql/article'
+
 const httpLink = new HttpLink({
   // 你需要在这里使用绝对路径
-  uri: 'http://192.168.0.105:3001/graphql/article'
+  uri: url
 })
 
 // 创建 apollo 客户端

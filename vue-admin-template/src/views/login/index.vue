@@ -28,10 +28,10 @@
           Sign in
         </el-button>
       </el-form-item>
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: admin</span>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>
@@ -45,21 +45,25 @@ export default {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
         callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
       }
+      if (value !== 'admin') {
+        callback(new Error('帳號錯誤'))
+      }
+      callback()
     }
     const validatePass = (rule, value, callback) => {
       if (value.length < 5) {
         callback(new Error('密码不能小于5位'))
-      } else {
-        callback()
       }
+      if (value !== 'adminadmin') {
+        callback(new Error('密码錯誤'))
+      }
+      callback()
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -67,7 +71,7 @@ export default {
       },
       loading: false,
       pwdType: 'password',
-      redirect: undefined
+      redirect: '/resume'
     }
   },
   watch: {
@@ -92,6 +96,7 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
+            console.log(this.redirect)
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
             this.loading = false

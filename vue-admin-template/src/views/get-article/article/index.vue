@@ -8,12 +8,11 @@
         <el-form-item> {{ article.tags }} </el-form-item>
       </el-form-item>
       <el-form-item label="文章內容">
-        <el-form-item> {{ article.content }} </el-form-item>
+        <el-form-item style="white-space: pre-wrap;">{{ article.content }}</el-form-item>
       </el-form-item>
-      <el-form-item label="上傳圖片" >
-        <el-upload :on-change="fileChange" :auto-upload="false" action="">
-          <el-button size="small" type="primary">上傳檔案</el-button>
-        </el-upload>
+      <el-form-item label="圖片" >
+        <!--eslint-disable-next-line-->
+        <img v-for="image in article.images" :src="image" style="display:block; padding-top:20px; width:60%; heigh:60%" >
       </el-form-item>
     </el-form>
   </div>
@@ -21,6 +20,7 @@
 
 <script>
 import gql from 'graphql-tag'
+// import axios from 'axios'
 
 export default {
   data() {
@@ -30,7 +30,8 @@ export default {
         content: '',
         tags: '',
         title: '',
-        type: ''
+        type: '',
+        images: []
       }
     }
   },
@@ -44,6 +45,7 @@ export default {
           tags
           _id
           type
+          _attachments
         }
       }`,
       // 参数
@@ -56,6 +58,12 @@ export default {
       this.article.title = data.article.title
       this.article.tags = data.article.tags
       this.article.content = data.article.content
+      if (data.article._attachments) {
+        for (var index in data.article._attachments) {
+          const uploadUrl = 'http://35.184.71.189:5984' + '/article/' + this.$route.params.id + '/' + index
+          this.article.images.push(uploadUrl)
+        }
+      }
     }).catch(() => {
       alert('無法讀取文章')
     })

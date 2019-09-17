@@ -8,16 +8,20 @@
         <el-input v-model="article.tags"/>
       </el-form-item>
       <el-form-item label="文章內容">
-        <el-input v-model="article.content"/>
+        <el-input v-model="article.content" :rows="20" type="textarea"/>
       </el-form-item>
       <el-form-item label="上傳圖片" >
-        <el-upload :on-change="fileChange" :auto-upload="false" action="">
+        <el-upload :on-change="fileChange" :auto-upload="false" action="" multiple>
           <el-button size="small" type="primary">上傳檔案</el-button>
         </el-upload>
       </el-form-item>
       <el-form-item>
         <el-button style="float: right;" @click="onCancel">取消</el-button>
         <el-button style="float: right;" type="primary" @click="onSubmit">修改文章</el-button>
+      </el-form-item>
+      <el-form-item label="圖片" >
+        <!--eslint-disable-next-line-->
+        <img v-for="image in article.images" :src="image" style="display:block; padding-top:20px; width:50%; heigh:50%" >
       </el-form-item>
     </el-form>
   </div>
@@ -26,6 +30,7 @@
 <script>
 import axios from 'axios'
 import gql from 'graphql-tag'
+import { url } from '../../apollo/index.js'
 
 export default {
   data() {
@@ -34,7 +39,8 @@ export default {
         _id: '',
         content: '',
         tags: '',
-        title: ''
+        title: '',
+        images: []
       },
       files: []
     }
@@ -48,6 +54,7 @@ export default {
           content
           tags
           _id
+          _attachments
         }
       }`,
       // 参数
@@ -61,6 +68,12 @@ export default {
       this.article.title = data.article.title
       this.article.tags = data.article.tags
       this.article.content = data.article.content
+      if (data.article._attachments) {
+        for (var index in data.article._attachments) {
+          const uploadUrl = 'http://35.184.71.189:5984' + '/article/' + this.$route.params.id + '/' + index
+          this.article.images.push(uploadUrl)
+        }
+      }
     }).catch(() => {
       alert('無法讀取文章')
     })
@@ -85,10 +98,8 @@ export default {
           tags: this.article.tags
         }
       }).then(data => {
-        const uploadUrl = 'http://192.168.0.105:3001/graphql/article/file/' + data.data.updateArticle._id
+        const uploadUrl = url + '/file/' + data.data.updateArticle._id
         this.upLoad(uploadUrl)
-        alert('修改文章成功')
-        window.location.reload()
       }).catch((error) => {
         console.log(error)
         alert('修改文章失敗')
@@ -100,12 +111,14 @@ export default {
     },
     fileChange(file) {
       this.files.push(file.raw) // 上传文件变化时将文件对象push进files数组
+      console.log(this.files)
     },
     upLoad(uploadUrl) {
       const formData = new FormData()
       for (let i = 0; i < this.files.length; i++) {
-        formData.append('file', this.files[i])
+        formData.append('files', this.files[i])
       }
+      console.log(formData)
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -113,10 +126,10 @@ export default {
       }
       axios.post(uploadUrl, formData, config).then(res => {
         console.log(res)
-      }).then(response => {
-        console.log(response)
+        alert('修改文章成功')
+        this.$router.push({ path: '/article-list' })
       }).catch(error => {
-        console.log(error.response)
+        console.log(error)
       })
     }
 
