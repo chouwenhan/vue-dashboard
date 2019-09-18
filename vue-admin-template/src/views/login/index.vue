@@ -46,7 +46,7 @@ export default {
       if (!isvalidUsername(value)) {
         callback(new Error('请输入正确的用户名'))
       }
-      if (value !== 'admin') {
+      if (value !== 'admin' && value !== 'user') {
         callback(new Error('帳號錯誤'))
       }
       callback()
@@ -55,7 +55,7 @@ export default {
       if (value.length < 5) {
         callback(new Error('密码不能小于5位'))
       }
-      if (value !== 'adminadmin') {
+      if (value !== 'adminadmin' && value !== 'useruser') {
         callback(new Error('密码錯誤'))
       }
       callback()

@@ -65,7 +65,7 @@ export default {
     },
     onCancel() {
       alert('取消創建文章')
-      window.location.reload()
+      this.$router.push({ path: '/article-list' })
     },
     fileChange(file) {
       this.files.push(file.raw) // 上传文件变化时将文件对象push进files数组
@@ -83,7 +83,7 @@ export default {
       axios.post(uploadUrl, formData, config).then(res => {
         console.log(res)
         alert('創建文章成功')
-        window.location.reload()
+        this.$router.push({ path: '/article-list' })
       }).catch(error => {
         console.log(error.response)
       })
