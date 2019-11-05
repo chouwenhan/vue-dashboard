@@ -60,7 +60,7 @@ export default {
       this.article.content = data.article.content
       if (data.article._attachments) {
         for (var index in data.article._attachments) {
-          const uploadUrl = 'http://35.184.71.189:5984' + '/article/' + this.$route.params.id + '/' + index
+          const uploadUrl = 'http://35.226.52.119:5984' + '/article/' + this.$route.params.id + '/' + index
           this.article.images.push(uploadUrl)
         }
       }
